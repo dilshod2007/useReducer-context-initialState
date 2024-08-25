@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";  // Import useNavigate
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProjectStore from "./context/store";
@@ -7,7 +7,7 @@ import ProjectStore from "./context/store";
 const Register = () => {
   const [state, dispatch] = useContext(ProjectStore);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
+  const navigate = useNavigate();  // Initialize useNavigate
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,6 +20,12 @@ const Register = () => {
         age: state.age,
       };
 
+      if (!newUser.email || !newUser.password || !newUser.age) {
+        toast.error("All fields are required!");
+        setLoading(false);
+        return;
+      }
+
       dispatch({ type: "add_user", user: newUser });
 
       toast.success("User registered successfully!");
@@ -28,8 +34,10 @@ const Register = () => {
 
       setLoading(false);
 
+      // Wait a bit before redirecting to ensure toast is shown
       setTimeout(() => {
-      }, 1000);  
+        navigate("/");  // Navigate to the home page after a delay
+      }, 1000);  // Adjust this delay as needed
     }, 2000);
   };
 
