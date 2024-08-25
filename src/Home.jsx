@@ -1,33 +1,39 @@
 import React, { useContext } from "react";
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import ProjectStore from "./context/store";
-import { Link } from "react-router-dom";
 
 const Home = () => {
   const [state, dispatch] = useContext(ProjectStore);
 
+  const handleDelete = (index) => {
+    dispatch({ type: "delete_user", index });
+
+    toast.success("User deleted successfully!");
+  }
+
   return (
-    <div className=" p-6 ">
-      <h1 className="text-3xl font-bold text-white mb-6 text-center">Registered Users</h1>
-      <div className="bg-gray-800 text-white p-6 rounded-lg shadow-lg w-[1200px] mx-auto ml-[-350px]">
-        <h2 className="text-lg font-semibold mb-2">
-          Email: {state.email}
-        </h2>
-        <p className="text-md mb-2">Password: {state.password}</p>
-        <p className="text-md mb-2">Age: {state.age}</p>
-        <button
-          className="
-            mt-6 bg-blue-500 text-white font-bold py-2 px-4 rounded 
-            hover:bg-blue-700 hover:scale-105 active:bg-blue-800 
-            relative
-          "
-          onClick={() => dispatch({ type: "LOGOUT" })}
-        >
-          Logout
-        </button>
-      </div>
-      <Link to="/register">
-     
-      </Link>
+    <div className="p-4 space-y-4">
+      {state.users.map((user, index) => (
+        <div key={index} className="p-4 bg-gray-700 rounded-lg shadow-md">
+          <div className="flex justify-between">
+            <span className="font-bold">User {index + 1}</span>
+            <button
+              onClick={() => handleDelete(index)}
+              className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700"
+            >
+              Delete
+            </button>
+          </div>
+          <div className="mt-2">
+            <p><strong>Email:</strong> {user.email}</p>
+            <p><strong>Password:</strong> {user.password}</p>
+            <p><strong>Age:</strong> {user.age}</p>
+          </div>
+        </div>
+      ))}
+
+      <ToastContainer />
     </div>
   );
 };
