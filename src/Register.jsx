@@ -1,12 +1,14 @@
 import { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";  // Import useNavigate
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ProjectStore from "./context/store";
 
 const Register = () => {
   const [state, dispatch] = useContext(ProjectStore);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     setLoading(true);
@@ -34,7 +36,7 @@ const Register = () => {
 
       setTimeout(() => {
         navigate("/"); 
-      }, 1000);  
+      }, 1000); 
     }, 2000);
   };
 
